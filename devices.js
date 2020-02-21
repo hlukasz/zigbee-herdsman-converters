@@ -7899,6 +7899,19 @@ const devices = [
         description: 'FLAIR Viyu Smarte LED bulb RGB E27',
         extend: generic.light_onoff_brightness_colortemp_colorxy,
     },
+
+    // Shaman
+    {
+        zigbeeModel: ['zigbee-io'],
+        model: 'Zigbee IO',
+        vendor: 'Shaman',
+        description: 'Universal IO',
+        fromZigbee: [fz.zigbee_io_input],
+        toZigbee: [tz.zigbee_io_output],
+        endpoint: (device) => {
+            return {'IO1': 1, 'IO2': 2, 'IO3': 3};
+        },
+    },
 ];
 
 module.exports = devices.map((device) =>

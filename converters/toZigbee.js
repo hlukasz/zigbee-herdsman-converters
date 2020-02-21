@@ -1775,6 +1775,38 @@ const converters = {
         },
     },
 
+    zigbee_io_output: {
+        key: ['output'],
+        convertSet: async (entity, key, value, meta) => {
+            value = value.toLowerCase();
+            var onoff_value;
+            if (value === 'high') {
+                onoff_value = 'on';
+            } else if (value === 'low') {
+                onoff_value = 'off';
+            }
+            await entity.command('genOnOff', onoff_value, {}, getOptions(meta));
+            // if (value.toLowerCase() === 'toggle') {
+            //     if (!meta.state.hasOwnProperty('output')) {
+            //         return {};
+            //     } else {
+            //         return {output: {state: meta.state.state === 'OFF' ? 'ON' : 'OFF'}};
+            //     }
+            // } else {
+                //return {output: {output: value.toUpperCase()}};
+                switch (entity.ID) {
+                    case 1: return {state: {output1: value}};
+                    case 2: return {state: {output2: value}};
+                    case 3: return {state: {output3: value}};
+                }
+
+            // }
+        },
+        convertGet: async (entity, key, meta) => {
+            await entity.read('genOnOff', ['onOff']);
+        },
+    },
+
     /**
      * Ignore converters
      */

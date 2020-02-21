@@ -4009,6 +4009,18 @@ const converters = {
         },
     },
 
+    zigbee_io_input: {
+        cluster: 'genBinaryInput',
+        type: ['attributeReport', 'readResponse'],
+        convert: (model, msg, publish, options, meta) => {
+            switch (msg.endpoint.ID) {
+                case 1: return {input1: msg.data.presentValue ? 'high' : 'low'};
+                case 2: return {input2: msg.data.presentValue ? 'high' : 'low'};
+                case 3: return {input3: msg.data.presentValue ? 'high' : 'low'};
+            }
+        },
+    },
+
     // Ignore converters (these message dont need parsing).
     ignore_onoff_report: {
         cluster: 'genOnOff',
