@@ -1,8 +1,8 @@
-const axios = require('axios');
 const url = 'https://eu.salusconnect.io/demo/default/status/firmware?timestamp=0';
 const assert = require('assert');
 const common = require('./common');
 const tar = require('tar-stream');
+const axios = common.getAxios();
 
 /**
  * Helper functions
@@ -74,7 +74,7 @@ async function isNewImageAvailable(current, logger, device) {
     const meta = await getImageMeta(device.modelID);
     const [currentS, metaS] = [JSON.stringify(current), JSON.stringify(meta)];
     logger.debug(`Is new image available for '${device.ieeeAddr}', current '${currentS}', latest meta '${metaS}'`);
-    return meta.fileVersion > current.fileVersion;
+    return Math.sign(current.fileVersion - meta.fileVersion);
 }
 
 /**
